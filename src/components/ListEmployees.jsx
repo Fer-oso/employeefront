@@ -28,38 +28,96 @@ const ListEmployees = () =>{
         })
     }
 
-    return(
-        <div className="container">
-           <h2 className="text-center">List Employees</h2>
-           <Link to="/add-employee" className="btn btn-primary mb-2">Add Employee</Link>
-           <table className="table table-bordered table-striped">
-            <thead>
-                <th>Employee Id</th>
-                <th>Employee First Name</th>
-                <th>Employee Last Name</th>
-                <th>Employee Email</th>
-                <th>Actions</th>
-            </thead>
-            <tbody>
-                {
-                employees.map((employee)=>(
-                
-                <tr key={employee.id}>
-                    <td>{employee.id}</td>
-                    <td>{employee.firstName}</td>
-                    <td>{employee.lastName}</td>
-                    <td>{employee.email}</td>
-                    <td>
-                        <Link to={`/edit-employee/${employee.id}`} className="btn btn-info">Update</Link>
-                        <button className="btn btn-danger" onClick={()=>deleteEmployee(employee.id)} style={{marginLeft:"10px"}}>Delete</button>
-                    </td>
-                </tr>
-                   
-                ))}
-            </tbody>         
-           </table>
-        </div>
-    )
+
+    const loadedEmployees= ()=>{
+        if(employees){
+            return (
+              <div>
+                <table className="table table-bordered table-striped">
+                  <thead>
+                    <th>Employee Id</th>
+                    <th>Employee First Name</th>
+                    <th>Employee Last Name</th>
+                    <th>Employee Email</th>
+                    <th>Actions</th>
+                  </thead>
+                  <tbody>
+                    {employees.map((employee) => (
+                      <tr key={employee.id}>
+                        <td>{employee.id}</td>
+                        <td>{employee.firstName}</td>
+                        <td>{employee.lastName}</td>
+                        <td>{employee.email}</td>
+                        <td>
+                          <Link
+                            to={`/edit-employee/${employee.id}`}
+                            className="btn btn-info"
+                          >
+                            Update
+                          </Link>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => deleteEmployee(employee.id)}
+                            style={{ marginLeft: "10px" }}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            );
+        }else{
+            return "no employees loaded"
+        }
+
+    }
+
+    return (
+      <div className="container">
+        <h2 className="text-center">List Employees</h2>
+        <Link to="/add-employee" className="btn btn-primary mb-2">
+          Add Employee
+        </Link>
+        {loadedEmployees()}
+{/*         <table className="table table-bordered table-striped">
+          <thead>
+            <th>Employee Id</th>
+            <th>Employee First Name</th>
+            <th>Employee Last Name</th>
+            <th>Employee Email</th>
+            <th>Actions</th>
+          </thead>
+          <tbody>
+            {employees.map((employee) => (
+              <tr key={employee.id}>
+                <td>{employee.id}</td>
+                <td>{employee.firstName}</td>
+                <td>{employee.lastName}</td>
+                <td>{employee.email}</td>
+                <td>
+                  <Link
+                    to={`/edit-employee/${employee.id}`}
+                    className="btn btn-info"
+                  >
+                    Update
+                  </Link>
+                  <button
+                    className="btn btn-danger"
+                    onClick={() => deleteEmployee(employee.id)}
+                    style={{ marginLeft: "10px" }}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table> */}
+      </div>
+    );
 }
 
 export default ListEmployees;

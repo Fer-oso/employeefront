@@ -5,19 +5,23 @@ import EmployeeService from "../services/EmployeeService";
 
 const AddEmployee = () => {
   const navigate = useNavigate();
-//CARGO EN EL STATE LOS VALORES OBTENIDOS DEL FORMULARIO
+
+  //CARGO EN EL STATE LOS VALORES OBTENIDOS DEL FORMULARIO
   const [values, setValues] = useState({
     firstName: "",
     lsatName: "",
     email: "",
     charge: "",
   });
-//CARGO EN EL STATE LA IMAGEN OBTENIDA DEL FORMULARIO
-    const [image, setImage] = useState({
-      image: {},
-    });
- 
-  //FUNCIONES PARA PODER OBTENER LOS VALORES DEL FORMULARIO  
+
+  //CARGO EN EL STATE LA IMAGEN OBTENIDA DEL FORMULARIO
+  const [image, setImage] = useState({
+    image:{}
+  }
+  
+  );
+
+  //FUNCIONES PARA PODER OBTENER LOS VALORES DEL FORMULARIO
   const handleInput = (e) => {
     const { name, value } = e.target;
     console.log(e.target.value);
@@ -28,8 +32,8 @@ const AddEmployee = () => {
   };
 
   const handleImage = (e) => {
-    let image = e.target.files[0];
-    console.log(e.target.files[0]);
+    var image = e.target.files[0];
+    console.log(image);
     setImage(image);
   };
 
@@ -40,14 +44,20 @@ const AddEmployee = () => {
   });
 
 
-  //FUNCION PARA HACER EL POST 
+  /*const jsonImage = JSON.stringify(image);
+  const blobImage = new Blob([jsonImage], {
+    type: "image/jpg",
+  });*/
+    
+
+  //FUNCION PARA HACER EL POST
   const crearUsuario = (e) => {
     e.preventDefault();
     //  const formDataImage = new FormData();
     //  formDataImage.append("image", image);
-        const formDataEmployee = new FormData();
-        formDataEmployee.append("employee", blob);
-        formDataEmployee.append("image", image);
+    const formDataEmployee = new FormData();
+    formDataEmployee.append("employee", blob);
+    formDataEmployee.append("image", image);
     EmployeeService.createEmployee(formDataEmployee)
       .then((res) => {
         console.log(res);
@@ -59,7 +69,7 @@ const AddEmployee = () => {
 
   return (
     <div className="container align-content-center">
-      <form className="col-md-8">
+      <form className="col-md-8" encType="multipart/form-data">
         <h1>Formulario Creacion empleado</h1>
 
         <div className="form-group">
@@ -118,10 +128,7 @@ const AddEmployee = () => {
             }}
           />
         </div>
-        <button
-          className="btn btn-success"
-          onClick={(e) => crearUsuario(e)}
-        >
+        <button className="btn btn-success" onClick={(e) => crearUsuario(e)}>
           Save Employee
         </button>
         {/*      <button
@@ -132,7 +139,7 @@ const AddEmployee = () => {
           Registrar
         </button> */}
         <div>
-          <Link to="/personajes" className="card-link">
+          <Link to="/employees" className="card-link">
             Volver
           </Link>
         </div>
