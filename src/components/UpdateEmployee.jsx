@@ -4,44 +4,70 @@ import { useNavigate, Link, useParams } from "react-router-dom";
 import EmployeeService from "../services/EmployeeService";
 
 const UpdateEmployee = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [email, setEmail] = useState("");
-  const [image, setImage] = useState("");
+  //STATE INICIAL
+  const [values, setValues] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    charge: "",
+    image: [],
+  });
 
-  const navigate = useNavigate();
-  const { id } = useParams();
+  //CARGO EN EL STATE LA IMAGEN OBTENIDA DEL FORMULARIO
+  const [image, setImage] = useState({
+    image: {},
+  });
 
-  const employee = { firstName, lastName, email, image };
-
-  let formData = new FormData();
-
-  const savOrUpdateEmployee = (e) => {
-    e.preventDefault();
-    if (id) {
-      EmployeeService.updateEmployee(id, employee)
-        .then((response) => {
-          navigate("/employees");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+  const handleInput = (e) => {
+    const { name, value } = e.target;
+    console.log(e.target.value);
+    setValues({
+      ...values,
+      [name]: value,
+    });
   };
 
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  //pido los datos a la API
   useEffect(() => {
     EmployeeService.getEmployeeById(id)
       .then((response) => {
-        setFirstName(response.data.firstName);
-        setLastName(response.data.lastName);
-        setEmail(response.data.email);
+        console.log(response.data);
+        setValues(response.data);
       })
       .catch((error) => {
         console.log(error);
       });
   }, []);
 
- 
+  const handleImage = (e) => {
+    var image = e.target.files[0];
+    console.log(image);
+    setImage(image);
+  };
 
+  const json = JSON.stringify(values);
+  const blob = new Blob([json], {
+    type: "application/json",
+  });
+
+  //funcion para guardar el empleado
+  const updateEmployee = (e) => {
+    e.preventDefault();
+    if (id) {
+      const formDataEmployee = new FormData();
+      formDataEmployee.append("employee", blob);
+      formDataEmployee.append("image", image);
+      EmployeeService.updateEmployee(id, formDataEmployee)
+        .then(() => {
+          navigate("/employees");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (
@@ -59,8 +85,8 @@ const UpdateEmployee = () => {
                     placeholder="Enter first name"
                     name="firstName"
                     className="form-control"
-                    value={firstName}
-                    onChange={(e) => setFirstName(e.target.value)}
+                    value={values.firstName}
+                    onChange={handleInput}
                   ></input>
                 </div>
 
@@ -71,8 +97,8 @@ const UpdateEmployee = () => {
                     placeholder="Enter last name"
                     name="lastName"
                     className="form-control"
-                    value={lastName}
-                    onChange={(e) => setLastName(e.target.value)}
+                    value={values.lastName}
+                    onChange={handleInput}
                   ></input>
                 </div>
 
@@ -83,8 +109,8 @@ const UpdateEmployee = () => {
                     placeholder="Enter first name"
                     name="email"
                     className="form-control"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    value={values.email}
+                    onChange={handleInput}
                   ></input>
 
                   <div className="form-group mb-2">
@@ -94,16 +120,15 @@ const UpdateEmployee = () => {
                       placeholder="Select image"
                       name="image"
                       className="form-control"
-                      value={image}
-                      onChange={(e) => setImage(e.target.value)}
+                      onChange={handleImage}
                     ></input>
                   </div>
                 </div>
                 <button
                   className="btn btn-success"
-                  onClick={(e) => savOrUpdateEmployee(e)}
+                  onClick={(e) => updateEmployee(e)}
                 >
-                  Save Employee
+                  Update Employee
                 </button>
                 <Link to="/employees" className="btn btn-danger">
                   Cancel

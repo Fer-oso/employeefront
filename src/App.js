@@ -6,6 +6,7 @@ import ListEmployees from './components/ListEmployees';
 import Index from './components/Index';
 import AddEmployee from './components/AddEmployee';
 import Image from './components/Image';
+import UpdateEmployee from './components/UpdateEmployee';
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
           <Route path='/' element = {<Index/>}></Route>
           <Route path='/employees' element = {<ListEmployees/>}></Route>
           <Route path='/add-employee' element ={<AddEmployee/>}></Route>
-          <Route path='/edit-employee/:id' element={<AddEmployee/>}></Route>
+          <Route path='/edit-employee/:id' element={<UpdateEmployee/>}></Route>
         </Routes>
       </div>
       <Footer/>

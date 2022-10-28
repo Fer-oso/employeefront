@@ -19,7 +19,6 @@ const Image = () => {
   const formData = new FormData();
   formData.append("image", image);
 
-
   const savOrUpdateEmployee = (e) => {
     e.preventDefault();
     EmployeeService.createImage(formData)

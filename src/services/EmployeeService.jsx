@@ -1,6 +1,6 @@
-import axios from 'axios';
+import axios from "axios";
 
-const EMPLOYEE_BASE_REST_API_URL = 'http://localhost:8080/api/v1/employees';
+const EMPLOYEE_BASE_REST_API_URL = "http://localhost:8080/api/v1/employees";
 
 const IMAGES_BASE_REST_API_URL = "http://localhost:8080/api/v1/images";
 
@@ -10,7 +10,7 @@ class EmployeeService {
   }
 
   createEmployee(employee) {
-    return axios.post(EMPLOYEE_BASE_REST_API_URL,employee);
+    return axios.post(EMPLOYEE_BASE_REST_API_URL, employee);
   }
 
   getEmployeeById(employeeId) {

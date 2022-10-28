@@ -16,10 +16,8 @@ const AddEmployee = () => {
 
   //CARGO EN EL STATE LA IMAGEN OBTENIDA DEL FORMULARIO
   const [image, setImage] = useState({
-    image:{}
-  }
-  
-  );
+    image: {},
+  });
 
   //FUNCIONES PARA PODER OBTENER LOS VALORES DEL FORMULARIO
   const handleInput = (e) => {
@@ -43,18 +41,9 @@ const AddEmployee = () => {
     type: "application/json",
   });
 
-
-  /*const jsonImage = JSON.stringify(image);
-  const blobImage = new Blob([jsonImage], {
-    type: "image/jpg",
-  });*/
-    
-
   //FUNCION PARA HACER EL POST
   const crearUsuario = (e) => {
     e.preventDefault();
-    //  const formDataImage = new FormData();
-    //  formDataImage.append("image", image);
     const formDataEmployee = new FormData();
     formDataEmployee.append("employee", blob);
     formDataEmployee.append("image", image);
@@ -131,13 +120,6 @@ const AddEmployee = () => {
         <button className="btn btn-success" onClick={(e) => crearUsuario(e)}>
           Save Employee
         </button>
-        {/*      <button
-          type="submit"
-          className="btn btn-primary"
-          onClick={(e) => crearUsuario(e)}
-        >
-          Registrar
-        </button> */}
         <div>
           <Link to="/employees" className="card-link">
             Volver
